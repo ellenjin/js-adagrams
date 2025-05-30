@@ -6,47 +6,31 @@ const LETTER_POOL = {
   S: 4, T: 6, U: 4, V: 2, W: 2, X: 1,
   Y: 2, Z: 1
 };
-
 const SCORE_CHART = {
-  A: 1, E: 1, I: 1, O: 1, U: 1,
-  L: 1, N: 1, R: 1, S: 1, T: 1,
-  D: 2, G: 2,
-  B: 3, C: 3, M: 3, P: 3,
-  F: 4, H: 4, V: 4, W: 4, Y: 4,
-  K: 5,
-  J: 8, X: 8,
+  A: 1, E: 1, I: 1, O: 1, U: 1, L: 1, 
+  N: 1, R: 1, S: 1, T: 1, D: 2, G: 2,
+  B: 3, C: 3, M: 3, P: 3, F: 4, H: 4,
+  V: 4, W: 4, Y: 4, K: 5, J: 8, X: 8,
   Q: 10, Z: 10
 };
 
-// const SCORE_CHART = {
-//   1: ['A', 'E', 'I', 'O', 'U', 'L', 'N', 'R', 'S', 'T'],
-//   2: ['D', 'G'],
-//   3: ['B', 'C', 'M', 'P'],
-//   4: ['F', 'H', 'V', 'W', 'Y'],
-//   5: ['K'],
-//   8: ['J', 'X'],
-//   10: ['Q', 'Z']
-// };
-
 export const drawLetters = () => {
-  // Implement this method for wave 1
   let letters = []
   let total_pool = []
 
   for (const [letter, count] of Object.entries(LETTER_POOL)) {
-    total_pool.push(...Array(count).fill(letter)); // ... unpacks the inner array 
+    total_pool.push(...Array(count).fill(letter));
   }
 
   for (let i = 0; i < HAND_SIZE; i++) {
     const r = Math.floor(Math.random() * total_pool.length);
     letters.push(total_pool[r]);
-    total_pool.splice(r, 1); // Should remove just the element at r
+    total_pool.splice(r, 1);
   }
   return letters;
 };
 
 export const usesAvailableLetters = (input, lettersInHand) => {
-  // Implement this method for wave 2
   let lettersInHandCopy = [...lettersInHand];
   input = input.toUpperCase();
 
@@ -61,8 +45,6 @@ export const usesAvailableLetters = (input, lettersInHand) => {
 };
 
 export const scoreWord = (word = "") => {
-  // if (typeof word !== "string") return 0;
-
   word = word.toUpperCase();
   let score = 0;
   
@@ -77,7 +59,6 @@ export const scoreWord = (word = "") => {
 };
 
 export const highestScoreFrom = (words) => {
-  // Implement this method for wave 4
   let highScore = 0;
   let highest = []
 
@@ -86,18 +67,15 @@ export const highestScoreFrom = (words) => {
 
     if (score > highScore) {
       highScore = score;
-      highest = [word]; // array only has new highest word now 
+      highest = [word];
     } else if (score === highScore) {
       highest.push(word)
     }
   }
-
   let winningWord = highest[0];
-
   if (highest.length > 1) {
     winningWord = tiebreaker(highest);
   }
-
   return ({
     word: winningWord,
     score: highScore
@@ -121,6 +99,5 @@ export const tiebreaker = (tiedWords) => {
       topChoices.push(word);
     }
   }
-
   return topChoices[0];
 };
